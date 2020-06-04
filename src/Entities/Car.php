@@ -1,8 +1,11 @@
 <?php
 
-namespace App;
+namespace App\Entities;
 
 class Car {
+
+    const MAX_WIDTH = 5;
+    const MAX_HEIGHT = 5;
 
     private $x;
     private $y;
@@ -17,6 +20,14 @@ class Car {
 
     public function setPosition($x, $y)
     {
+        if($x > self::MAX_WIDTH || $x < 0) {
+            return;
+        }
+
+        if($y > self::MAX_HEIGHT || $y < 0) {
+            return;
+        }
+
         $this->x = $x;
         $this->y = $y;
     }
@@ -84,8 +95,8 @@ class Car {
     private function correctPosition()
     {
          if($this->x < 0) { $this->x++; }
-        if($this->x >= 5) { $this->x--; }
+        if($this->x >= self::MAX_WIDTH) { $this->x--; }
         if($this->y < 0) { $this->y++; }
-        if($this->y >= 5) { $this->y--; }
+        if($this->y >= self::MAX_HEIGHT) { $this->y--; }
     }
 }

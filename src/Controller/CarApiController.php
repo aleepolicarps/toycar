@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use App\Car;
+use App\Entities\Car;
 
 class CarApiController extends AbstractController
 {
@@ -25,11 +25,8 @@ class CarApiController extends AbstractController
             return new JsonResponse(['message' => 'Car not placed yet.'], 403);
         }
 
-        return new JsonResponse([
-            'x' => $this->session->get('x'),
-            'y' => $this->session->get('y'),
-            'direction' =>$this->session->get('direction')
-        ]);
+        $car = new Car($this->session->get('x'), $this->session->get('y'), $this->session->get('direction'));
+        return new JsonResponse($car->toArray());
     }
 
     /**
