@@ -1,18 +1,30 @@
-td {
-    width: 100px;
-    height: 100px;
+.title {
     text-align: center;
-    vertical-align: middle;
+}
+
+.car-table {
+    height: 100%;
+
+    .cell {
+        border: 1px solid gray;
+        height: 120px;
+    }
+
+    .cell-label {
+        text-align: center;
+        font-weight: bold;
+    }
 }
 
 .car {
-    width: 25px;
+    width: 40px;
     height: auto;
     display: block;
     margin: auto;
-    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .command {
     display: flex;
+    padding: 20px;
 }

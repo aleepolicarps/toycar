@@ -7,7 +7,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <section class="hero is-primary">
+        <section class="hero is-light">
         <div class="hero-body">
           <div class="container">
             <h1 class="title">

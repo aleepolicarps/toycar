@@ -19,6 +19,6 @@ export default class Car extends Component {
       transform: `rotate(${rotation}deg)`
     };
 
-    return <img src="/images/car.png" class="car" style={style} />;
+    return <img src="/images/car.png" class="image car" style={style} />;
   }
 }
