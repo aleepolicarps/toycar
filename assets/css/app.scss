@@ -27,4 +27,8 @@
 .command {
     display: flex;
     padding: 20px;
+
+    .button {
+        margin-left: 2px;
+    }
 }

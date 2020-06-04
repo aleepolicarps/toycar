@@ -11,7 +11,7 @@ class Car {
     private $y;
     private $direction;
 
-    public function __construct($x, $y, $direction)
+    public function __construct($x = null, $y = null, $direction = null)
     {
         $this->x = $x;
         $this->y = $y;

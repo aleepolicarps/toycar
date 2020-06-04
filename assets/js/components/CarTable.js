@@ -6,14 +6,17 @@ export default class CarTable extends Component {
   constructor(props) {
     super(props);
 
+    this.setState({
+      hasError: false
+    });
+
     fetch('/api/car/status')
       .then(response => response.json())
       .then((jsonResponse) => {
         this.setState({
           x: jsonResponse.x,
           y: jsonResponse.y,
-          direction: jsonResponse.direction,
-          hasError: false
+          direction: jsonResponse.direction
         });
       });
 
@@ -35,13 +38,14 @@ export default class CarTable extends Component {
     const {value} = event.target;
     this.setState({ command: value });
   }
+
   runCommand() {
     const { command } = this.state;
-    let carCommand = command.trim;
+    let carCommand = command.trim();
 
     if(command.toLowerCase().includes('place')) {
-      const coordinates = command.replace('PLACE', '').replace(' ', '');
-      let [x, y, direction] = coordinates.split(',');
+      const coordinates = command.replace('PLACE', '');
+      let [x, y, direction] = coordinates.replace(/ /g, '').split(',');
       y--;
       x = x.toLowerCase().charCodeAt(0) - 97;
       carCommand = `PLACE ${x},${y},${direction}`;
@@ -59,7 +63,6 @@ export default class CarTable extends Component {
         return response.json()
       })
       .then((jsonResponse) => {
-        if(jsonResponse)
         this.setState({
           x: jsonResponse.x,
           y: jsonResponse.y,
@@ -67,6 +70,38 @@ export default class CarTable extends Component {
           hasError: false
         });
       });
+  }
+
+  reset() {
+    fetch('/api/car/reset')
+    .then(response => response.json())
+    .then((jsonResponse) => {
+      this.setState({
+        x: null,
+        y: null,
+        direction: null,
+        hasError: false
+      });
+    });
+  }
+
+  runAll() {
+    fetch('/api/car/run-history')
+    .then(response => response.json())
+    .then((jsonResponse) => {
+      let seconds = 0;
+      jsonResponse.forEach(({x, y, direction}) => {
+        setTimeout(() => {
+          this.setState({
+            x: x,
+            y: y,
+            direction: direction
+          })
+        }, seconds * 300);
+
+        seconds++;
+      });
+    });
   }
 
   render(props, state) {
@@ -77,7 +112,9 @@ export default class CarTable extends Component {
       <div>
         <div class="command">
           <input class={"input is-large " + (hasError && 'is-danger')} type="text" placeholder="Type command..." onChange={this.changeCommand.bind(this)} onKeyup={((e) => { e.keyCode == 13 && this.runCommand(e); }).bind(this)}/>
-          <button class="button is-light is-large" onClick={this.runCommand.bind(this)}>RUN</button>
+          <button class="button is-success is-large" onClick={this.runCommand.bind(this)}>RUN</button>
+          <button class="button is-large is-info" onClick={this.runAll.bind(this)}>RUN ALL</button>
+          <button class="button is-danger is-large" onClick={this.reset.bind(this)}>RESET</button>
         </div>
         <div class="section car-table">
           {
