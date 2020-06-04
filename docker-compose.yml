@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+    app:
+        image: webdevops/php-nginx:7.2
+        ports:
+            - 80:80
+        volumes:
+            - .:/app
+            - ./nginx.conf:/opt/docker/etc/nginx/vhost.conf
+
